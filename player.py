@@ -22,7 +22,7 @@ def play(*args):
     mcSocket.bind(('', mcPort)) # listen on all interfaces
 
     # Join multicast group
-    mreq = struct.pack("4sl", socket.inet_aton(mcIP), socket.INADDR_ANY) #crea binary structure needed for ip_add_membership, converts 
+    mreq = struct.pack("4sl", socket.inet_aton(mcIP), socket.INADDR_ANY) #create binary structure needed for ip_add_membership, converts 
     #our mc ip and any interface addr on the expected format for kernel
     mcSocket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq) #joins the socket to the mc group, with our
     #mreq and the command IP_ADD_MEMBERSHIP

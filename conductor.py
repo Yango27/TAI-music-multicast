@@ -63,3 +63,11 @@ if __name__ == "__main__":
 
     startMusic(*sys.argv[1:])
 
+
+#the MAC address for a specific multicast IP is built from 01-00-5E which are fixed values
+# and for the last 24 bits we take the least significative 23 bits from multicast IP and a 0 at 
+#the beggining of those, example: 224.1.1.1 -> 01-00-5E-01-01-01
+
+#for each multicast ethernet frame it will be taken by those host that are joined in the group 
+#specified by te multicast IP, and those routers that implement multicast
+
