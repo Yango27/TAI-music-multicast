@@ -22,8 +22,14 @@ def play(*args):
     mcSocket.bind(('', mcPort)) # listen on all interfaces
 
     # Join multicast group
-    mreq = struct.pack("4sl", socket.inet_aton(mcIP), socket.INADDR_ANY)
-    mcSocket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+    mreq = struct.pack("4sl", socket.inet_aton(mcIP), socket.INADDR_ANY) #crea binary structure needed for ip_add_membership, converts 
+    #our mc ip and any interface addr on the expected format for kernel
+    mcSocket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq) #joins the socket to the mc group, with our
+    #mreq and the command IP_ADD_MEMBERSHIP
+
+    #would it be desirable to have a high-level abstraction of multicast join for Python?
+    #no, because python's sockets tries to be as close as possible to the actual sockets
+    #OS API, in order to have a full compatibility between different systems and ensure full control of the sockets
 
     while True:
         dataRaw, addr = mcSocket.recvfrom(1024) #receive data from socket
@@ -53,8 +59,5 @@ def play(*args):
 
 if __name__ == "__main__":
 
-    mcIP = input("Multicast IP: ")
-    mcPort = input("Multicast Port: ")
-    instrument = input("Instrument to assign: ")
 
-    print(play(mcIP, mcPort, instrument))
+    print(play(*sys.argv[1:]))

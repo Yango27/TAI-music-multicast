@@ -49,12 +49,17 @@ def startMusic(*args):
     udpSocketB.close()
     udpSocketC.close()
 
+    #what would happen if the execution of the code stops before closing the sockets?
+    #in this case, we are on UDP, so, if the sockets are not close there's not a big problem,
+    #it would almos inmediately liberate the ports so it would be reusable
+    #but we are in multicast, its possible that the kernel would still register our socket as active even if its not
+
+    #if it was TCP we would encounter that the port is ocuppied for a few minutes, 
+    #thats because TCP has a handshake, which ensures that the connection is fully closed from both sides
+    #if the execution stops before closing tcp would mantain the port used for a few minutes, which
+    #would avoid other programs to use these ports.
+
 if __name__ == "__main__":
 
-    mcIPA = input("Multicast IPA: ")
-    mcIPB = input("Multicast IPB: ")
-    mcIPC = input("Multicast IPC: ")
-    mcPort = input("Multicast Port: ")
-
-    startMusic(mcIPA, mcIPB, mcIPC, mcPort)
+    startMusic(*sys.argv[1:])
 
